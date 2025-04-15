@@ -1,0 +1,8 @@
+# Ignore virtual environment directories
+llmvenv/
+
+# Ignore past version files
+pre_0415_init/
+
+# Ignore Python cache files
+__pycache__/
