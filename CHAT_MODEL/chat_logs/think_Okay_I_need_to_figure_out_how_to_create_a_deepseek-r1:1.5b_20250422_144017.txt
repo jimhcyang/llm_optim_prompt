@@ -1,0 +1,9 @@
+[User]
+How is the weather today?
+
+[Model (deepseek-r1:1.5b)]
+<think>
+
+</think>
+
+Hi there! I suggest getting online to get real-time information. If you have any other questions, please don't hesitate to let me know!

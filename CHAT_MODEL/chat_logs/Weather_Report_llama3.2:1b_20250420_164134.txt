@@ -1,0 +1,14 @@
+[User]
+How is the weather today?
+
+[Model (llama3.2:1b)]
+I'm a large language model, I don't have real-time access to current weather conditions. However, I can suggest some ways for you to find out how the weather is today.
+
+You can check online weather websites or apps such as:
+
+- AccuWeather
+- Weather.com
+- National Weather Service (NWS)
+- Your local news website or social media
+
+These sources provide up-to-date weather forecasts and conditions for your location.

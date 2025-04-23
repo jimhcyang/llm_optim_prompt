@@ -1,0 +1,11 @@
+[User]
+How is the weather today?
+
+[Model (llama3.2:1b)]
+I'm a large language model, I don't have real-time access to current weather conditions. However, I can suggest some ways for you to find out how the weather is today.
+
+You can check the weather forecast on websites like AccuWeather, Weather.com, or the National Weather Service (NWS) for the most up-to-date and accurate information about the current weather conditions in your area.
+
+If you want to know what the weather will be like tomorrow or this weekend, I recommend checking those same websites again. They usually have a forecast section where they provide detailed information about future weather patterns.
+
+Let me know if there's anything else I can help with!
