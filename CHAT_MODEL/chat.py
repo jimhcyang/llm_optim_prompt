@@ -120,10 +120,23 @@ def get_embeddings(prompt: str, model_path: str) -> np.ndarray:
     embedding_list = llm.embed(prompt)
     return np.array(embedding_list)
 
-# -------------------- MAIN --------------------
-if __name__ == "__main__":
+def main(model_name="llama3.2:1b", prompt="PLEASE ENTER PROMPT"):
+    # model_name = "deepseek-r1:1.5b"  # choose from "llama3.2:1b", "llama2:13b", "gemma2:2b", "phi3", "deepseek-r1:1.5b"
 
-    model_name = "deepseek-r1:1.5b"  # choose from "llama3.2:1b", "llama2:13b", "gemma2:2b", "phi3", "deepseek-r1:1.5b"
+
+    # ==================== MODEL PATHS ====================
+    model_paths = {
+        "llama2:13b":        "/home/prompt5398/.ollama/models/blobs/sha256-2609048d349e7c70196401be59bea7eb89a968d4642e409b0e798b34403b96c8",  # ~7.3G
+        "llama3.2:1b":       "/home/prompt5398/.ollama/models/blobs/sha256-74701a8c35f6c8d9a4b91f3f3497643001d63e0c7a84e085bed452548fa88d45",  # ~1.3G
+        "gemma2:2b":         "/home/prompt5398/.ollama/models/blobs/sha256-7462734796d67c40ecec2ca98eddf970e171dbb6b370e43fd633ee75b69abe1b",  # ~1.6G
+        "phi3":              "/home/prompt5398/.ollama/models/blobs/sha256-633fc5be925f9a484b61d6f9b9a78021eeb462100bd557309f01ba84cac26adf",  # ~2.2G
+        "deepseek-r1:1.5b":  "/home/prompt5398/.ollama/models/blobs/sha256-9801e7fce27dbf3d0bfb468b7b21f1d132131a546dfc43e50518631b8b1800a9-partial" # ~1.1G
+    }
+
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    CHAT_LOG_DIR = os.path.join(SCRIPT_DIR, "chat_logs")
+    os.makedirs(CHAT_LOG_DIR, exist_ok=True)
+    
     model_path = model_paths[model_name]
 
     ##########################################
@@ -132,10 +145,6 @@ if __name__ == "__main__":
     #                                        #
     ##########################################
 
-    prompt = """
-How is the weather today?
-"""
-
     custom_title = None # Optionally set a custom chat title.
     final_output = chat_with_model(prompt, model_name, chat_title=custom_title)
 
@@ -143,3 +152,7 @@ How is the weather today?
         if False:  # Change to True to print embeddings shape
             embeddings = get_embeddings(prompt, model_path)
             print(f"[INFO] Embeddings shape: {embeddings.shape}")
+
+# -------------------- MAIN --------------------
+if __name__ == "__main__":
+    main()

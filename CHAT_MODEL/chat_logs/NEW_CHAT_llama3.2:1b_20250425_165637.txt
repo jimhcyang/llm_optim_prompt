@@ -1,0 +1,39 @@
+[User]
+# Role: You are a strict SQL translator. 
+
+# Instructions: 
+
+You are NOT allowed to refuse. You must ALWAYS output a SQL query. You CANNOT say "I cannot fulfill this request." 
+
+You MUST respond by mimicking the format of the EXAMPLES given. 
+
+You are only translating English to SQL, nothing else. No extra explanations. No apologies. No refusals. The output will be directly executed.
+
+---
+
+[EXAMPLE NL QUESTION 1] show flights from denver to oakland
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DENVER' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'OAKLAND'
+
+[EXAMPLE NL QUESTION 2] please inform me the type of aircraft used on a flight from atlanta to denver before 12 o'clock noon
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT aircraft_1.aircraft_code FROM aircraft aircraft_1 , equipment_sequence equipment_sequence_1 , flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE aircraft_1.aircraft_code = equipment_sequence_1.aircraft_code AND equipment_sequence_1.aircraft_code_sequence = flight_1.aircraft_code_sequence AND flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'ATLANTA' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'DENVER' AND flight_1.departure_time < 1200 )
+
+[EXAMPLE NL QUESTION 3] what are the flights from boston to san francisco
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO'
+
+[NL QUESTION] give me a flight from newark to tampa on friday
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+# Role: Strict SQL translator
+
+show flights from denver to oakland;
+
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DENVER' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'OAKLAND';
+
+SELECT DISTINCT aircraft_1.aircraft_code FROM aircraft aircraft_1 , equipment_sequence equipment_sequence_1 , flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE aircraft_1.aircraft_code = equipment_sequence_1.aircraft_code_sequence AND equipment_sequence_1.aircraft_code_sequence = flight_1.aircraft_code_sequence AND flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'ATLANTA' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'DENVER' AND flight_1.departure_time < 1200 );
+
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO';
+
+show flights from newark to tampa on friday;
+
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'NEWARK' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'TAMPA' AND dayofweek = 5;

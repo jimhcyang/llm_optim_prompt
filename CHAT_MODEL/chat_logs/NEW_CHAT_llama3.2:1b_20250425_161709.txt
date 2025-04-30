@@ -1,0 +1,82 @@
+[User]
+# Instructions:
+
+You are a SQL translator. You take instructions, context, and examples, and outputs a SQL query that is a Maxmial Likelihood Estimate of what a correct and functioning query would be when provided to the database. True to a translator, you will only return the SQL prompt, no explanations necessary for your guesses, and the output will be ran directly against the database. You will be handsomely rewarded whenever you get the correct output.
+
+---
+
+does american airlines fly from boston to san francisco
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.airline_code = 'AA' AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO' )
+
+i want a flight from boston to atlanta
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'ATLANTA'
+
+what is the cost of flights from denver to san francisco
+SELECT DISTINCT fare_1.fare_id FROM fare fare_1 , flight_fare flight_fare_1 , flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE fare_1.fare_id = flight_fare_1.fare_id AND flight_fare_1.flight_id = flight_1.flight_id AND flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DENVER' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO'
+
+please list the flight times from newark to boston
+
+[Model (llama3.2:1b)]
+```sql
+-- FROM BOSTON TO SAN FRANCISCO
+SELECT DISTINCT flight_1.flight_id 
+FROM flight flight_1, 
+     airport_service airport_service_1, 
+     city city_1, 
+     airport_service airport_service_2, 
+     city city_2 
+WHERE flight_1.airline_code = 'AA' AND 
+      flight_1.from_airport = airport_service_1.airport_code AND 
+      airport_service_1.city_code = city_1.city_code AND 
+      city_1.city_name = 'BOSTON' AND 
+      flight_1.to_airport = airport_service_2.airport_code AND 
+      airport_service_2.city_code = city_2.city_code AND 
+      city_2.city_name = 'SAN FRANCISCO'
+
+-- FROM BOSTON TO ATLANTA
+SELECT DISTINCT flight_1.flight_id 
+FROM flight flight_1, 
+     airport_service airport_service_1, 
+     city city_1, 
+     airport_service airport_service_2, 
+     city city_2 
+WHERE flight_1.from_airport = airport_service_1.airport_code AND 
+      airport_service_1.city_code = city_1.city_code AND 
+      city_1.city_name = 'BOSTON' AND 
+      flight_1.to_airport = airport_service_2.airport_code AND 
+      airport_service_2.city_code = city_2.city_code AND 
+      city_2.city_name = 'ATLANTA'
+
+-- FROM DENVER TO SAN FRANCISCO
+SELECT DISTINCT fare_1.fare_id 
+FROM fare fare_1, flight_fare flight_fare_1, 
+     flight flight_1, 
+     airport_service airport_service_1, 
+     city city_1, 
+     airport_service airport_service_2, 
+     city city_2 
+WHERE fare_1.fare_id = flight_fare_1.fare_id AND 
+      flight_fare_1.flight_id = flight_1.flight_id AND 
+      flight_1.from_airport = airport_service_1.airport_code AND 
+      airport_service_1.city_code = city_1.city_code AND 
+      city_1.city_name = 'DENVER' AND 
+      flight_1.to_airport = airport_service_2.airport_code AND 
+      airport_service_2.city_code = city_2.city_code AND 
+      city_2.city_name = 'SAN FRANCISCO'
+
+-- LISTING FLIGHT TIMES FROM NEWARK TO BOSTON
+SELECT DISTINCT T2.flight_id, T1.from_time AS flight_time
+FROM Newark_airport newark_airport,
+     Flight flight,
+     City city_1,
+     Airport airport_service_1,
+     Airport airport_service_2
+WHERE flight.airline_code = 'AA'
+AND 
+  flight.from_airport = airport_service_1.airport_code AND
+  airport_service_1.city_code = city_1.city_code AND
+  city_1.city_name = 'BOSTON' AND
+  flight.to_airport = airport_service_2.airport_code AND
+  airport_service_2.city_code = city_2.city_code AND
+  city_2.city_name = 'BOSTON';
+```

@@ -1,0 +1,81 @@
+[User]
+show me all direct flights from san francisco to boston departing before noon
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.connections = 0 AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'SAN FRANCISCO' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'BOSTON' AND flight_1.departure_time < 1200 ) )
+
+what is restriction ap/80
+SELECT DISTINCT restriction_1.restriction_code FROM restriction restriction_1 WHERE restriction_1.restriction_code = 'AP/80'
+
+i need a flight from pittsburgh to new york leaving at 5pm
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PITTSBURGH' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'NEW YORK' AND flight_1.departure_time = 1700 )
+
+i need a flight from pittsburgh to los angeles thursday evening
+
+[Model (llama3.2:1b)]
+I can help you with the direct flights from San Francisco to Boston, Pittsburgh to New York leaving at 5pm, and Pittsburgh to Los Angeles on Thursday evening.
+
+### San Francisco to Boston Direct Flights Departing Before Noon
+
+```sql
+SELECT DISTINCT flight_1.flight_id 
+FROM flight flight_1,
+     airport_service airport_service_1,
+     city city_1,
+     airport_service airport_service_2,
+     city city_2
+WHERE flight_1.connections = 0
+AND (flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'SAN FRANCISCO' AND 
+    (flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'BOSTON' AND flight_1.departure_time < 1200))
+```
+
+### Pittsburgh to New York Direct Flights Leaving at 5pm
+
+```sql
+SELECT DISTINCT flight_1.flight_id 
+FROM flight flight_1,
+     airport_service airport_service_1,
+     city city_1,
+     airport_service airport_service_2,
+     city city_2
+WHERE flight_1.from_airport = airport_service_1.airport_code AND 
+    airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PITTSBURGH' AND 
+    (flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'NEW YORK' AND flight_1.departure_time = 1700)
+```
+
+### Pittsburgh to Los Angeles on Thursday Evening Direct Flights
+
+```sql
+SELECT DISTINCT flight_1.flight_id 
+FROM flight flight_1,
+     airport_service airport_service_1,
+     city city_1,
+     airport_service airport_service_2,
+     city city_2
+WHERE flight_1.from_airport = airport_service_1.airport_code AND 
+    airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PITTSBURGH' AND 
+    (flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'LOS ANGELES' AND flight_1.departure_time = 1900)
+```
+
+Please note that the departure time for Los Angeles in the evening may vary depending on the airline and flight schedule. The above query will return flights departing at 5pm or later, but you should verify with the specific airlines and schedules to confirm availability.
+
+### Sample Data
+
+Assuming the following data:
+
+- Flight records
+- Airports
+- Cities
+- Airlines
+- Departure and arrival times
+- Connections (with their respective airports and cities)
+
+```sql
++-----------------------+------------+---------------+---------------+-----------+
+| flight_id              | from_airport | to_airport   | departure_time | connections |
++-----------------------+------------+---------------+---------------+-----------+
+| F101                  | SFO        | BOS          | 2023-03-17 09:00 | NULL       |
+| F102                  | SFO        | JFK         | 2023-03-17 12:00 | NULL       |
+| F103                  | SFO        | LAX         | 2023-03-17 14:00 | NULL       |
++-----------------------+------------+---------------+---------------+-----------+
+```
+
+You can run the above SQL queries with this data to get the desired results.

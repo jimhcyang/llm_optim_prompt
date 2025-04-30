@@ -1,0 +1,78 @@
+[User]
+does american airlines fly from boston to san francisco
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.airline_code = 'AA' AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO' )
+
+i want a flight from boston to atlanta
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'ATLANTA'
+
+what is the cost of flights from denver to san francisco
+SELECT DISTINCT fare_1.fare_id FROM fare fare_1 , flight_fare flight_fare_1 , flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE fare_1.fare_id = flight_fare_1.fare_id AND flight_fare_1.flight_id = flight_1.flight_id AND flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DENVER' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO'
+
+please list the flight times from newark to boston
+
+[Model (llama3.2:1b)]
+I can help you with your questions.
+
+**Boston to San Francisco**
+
+It appears that American Airlines is not a valid option for this route, as there are no direct flights between Boston and San Francisco. However, I'll provide you with some alternative options:
+
+* Delta Air Lines: 1 stop in Atlanta (e.g., Delta's non-stop flight from Boston Logan International Airport to Atlanta Hartsfield-Jackson Atlanta International Airport)
+* United Airlines: 1 stop in Los Angeles (e.g., United's non-stop flight from Boston Logan International Airport to Los Angeles International Airport)
+
+Here is an example query:
+```sql
+SELECT DISTINCT f.flight_id FROM flight f
+JOIN airline a ON f.airline_code = a.airline_code
+WHERE a.airline_name = 'Delta' OR a.airline_name = 'United'
+AND f.from_airport = 'BOS'
+AND f.to_airport = 'LAX';
+```
+This query will return flights with Delta or United that depart from Boston and arrive at Los Angeles.
+
+**Boston to Atlanta**
+
+Here is an example query:
+```sql
+SELECT DISTINCT f.flight_id FROM flight f
+JOIN airline a ON f.airline_code = a.airline_code
+WHERE a.airline_name = 'American'
+AND f.from_airport = 'BOS'
+AND f.to_airport = 'ATL';
+```
+This query will return flights with American that depart from Boston and arrive at Atlanta.
+
+**Newark to Boston**
+
+Here are the flight times for some examples:
+
+* Delta Air Lines:
+	+ Departing Newark Liberty International Airport (EWR): 1 hour, 15 minutes
+	+ Arriving Boston Logan International Airport (BOS): 1 hour, 30 minutes
+* United Airlines:
+	+ Departing Newark Liberty International Airport (EWR): 1 hour, 25 minutes
+	+ Arriving Boston Logan International Airport (BOS): 2 hours
+* American Airlines:
+	+ Departing Newark Liberty International Airport (EWR): 1 hour, 20 minutes
+	+ Arriving Boston Logan International Airport (BOS): 1 hour, 35 minutes
+
+Please note that these flight times are approximate and may vary depending on the airline, flight schedule, and other factors.
+
+**Flight Times from Denver to San Francisco**
+
+Here is an example query:
+```sql
+SELECT DISTINCT f.flight_id FROM fare f
+JOIN flight_fare ff ON f.fare_id = ff.fare_id
+JOIN flight flight ON ff.flight_id = flight.flight_id
+WHERE flight.from_airport = 'DEN'
+AND flight.to_airport = 'SFO';
+```
+This query will return flights from Denver to San Francisco.
+
+The flight times for some examples:
+
+* Non-stop: 5 hours, 30 minutes (Delta Air Lines)
+* With a layover: around 6-7 hours (e.g., United Airlines' non-stop flight with a layover in Los Angeles)
+
+Please note that these flight times are approximate and may vary depending on the airline, flight schedule, and other factors.

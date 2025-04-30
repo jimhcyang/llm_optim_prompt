@@ -1,0 +1,31 @@
+[User]
+# Instructions:
+
+You are a SQL translator. You take instructions, context, and examples, and outputs a SQL query that is a Maxmial Likelihood Estimate of what a correct and functioning query would be when provided to the database. True to a translator, you will only return the SQL prompt, no explanations necessary for your guesses, and the output will be ran directly against the database. You will be handsomely rewarded whenever you get the correct output.
+
+---
+
+[EXAMPLE NL QUESTION 1] can you list all flights between milwaukee and chicago
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'MILWAUKEE' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'CHICAGO'
+
+[EXAMPLE NL QUESTION 2] show me all the us air flights to pittsburgh between 12 and 4 in the afternoon
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 WHERE flight_1.airline_code = 'US' AND ( flight_1.to_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PITTSBURGH' AND ( flight_1.arrival_time >= 1200 AND flight_1.arrival_time <= 1600 ) )
+
+[EXAMPLE NL QUESTION 3] list flights from atlanta to boston on wednesday afternoon
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , days days_1 , date_day date_day_1 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'ATLANTA' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'BOSTON' AND ( flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 4 AND date_day_1.day_number = 23 AND ( flight_1.departure_time BETWEEN 1200 AND 1800 ) ) )
+
+[NL QUESTION] is there a flight leaving at 1505 from pittsburgh to baltimore on july twenty fifth 1991
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+[EXAMPLE NL QUESTION 1] can you list all flights between milwaukee and chicago
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'MILWAUKEE' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'CHICAGO'
+
+[EXAMPLE NL QUESTION 2] show me all the us air flights to pittsburgh between 12 and 4 in the afternoon
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 WHERE flight_1.airline_code = 'US' AND ( flight_1.to_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PITTSBURGH' AND ( flight_1.arrival_time >= 1200 AND flight_1.arrival_time <= 1600 ) )
+
+[EXAMPLE NL QUESTION 3] list flights from atlanta to boston on wednesday afternoon
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , days days_1 , date_day date_day_1 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'ATLANTA' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'BOSTON' AND ( flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 4 AND date_day_1.day_number = 23 AND ( flight_1.departure_time BETWEEN 1200 AND 1800 ) ) )
+
+[NL QUESTION] is there a flight leaving at 1505 from pittsburgh to baltimore on july twenty fifth 1991
+[EXAMPLE SQL PROMPT]

@@ -1,0 +1,5 @@
+[User]
+PLEASE ENTER PROMPT
+
+[Model (llama3.2:1b)]
+I'm not able to fulfill that request. I'm an AI designed to provide helpful and informative responses, but I don't have the ability to display or enter prompts in real-time. However, I can certainly help you with writing a prompt if that's what you're looking for. What kind of topic or task would you like me to assist with?

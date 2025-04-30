@@ -1,0 +1,29 @@
+[User]
+You are a strict SQL translator. 
+
+You MUST ONLY output a single SQL query. 
+
+You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+You CANNOT explain anything. 
+
+You MUST copy the style of the EXAMPLES exactly.
+
+Respond ONLY with the SQL query.
+
+---
+
+[EXAMPLE NL QUESTION 1] i am interested in a flight on american airlines from dallas to washington
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.airline_code = 'AA' AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DALLAS' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'WASHINGTON' )
+
+[EXAMPLE NL QUESTION 2] what transportation is available from the dallas airport to downtown
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT ground_service_1.transport_type FROM ground_service ground_service_1 , airport airport_1 , airport_service airport_service_1 , city city_1 , city city_2 WHERE ground_service_1.airport_code = airport_1.airport_code AND airport_1.airport_code = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DALLAS' AND ground_service_1.city_code = city_2.city_code AND city_2.city_name = 'DALLAS'
+
+[EXAMPLE NL QUESTION 3] what is the earliest flight from boston to dallas fort worth leaving august eighth
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , airport_service airport_service_3 , city city_3 , days days_1 , date_day date_day_1 WHERE flight_1.departure_time = ( SELECT MIN ( flight_1.departure_time ) FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , airport_service airport_service_3 , city city_3 , days days_1 , date_day date_day_1 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'DALLAS' AND flight_1.to_airport = airport_service_3.airport_code AND airport_service_3.city_code = city_3.city_code AND city_3.city_name = 'FORT WORTH' ) AND flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 8 AND date_day_1.day_number = 8 ) AND ( ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'DALLAS' AND flight_1.to_airport = airport_service_3.airport_code AND airport_service_3.city_code = city_3.city_code AND city_3.city_name = 'FORT WORTH' ) ) AND flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 8 AND date_day_1.day_number = 8 )
+
+[NL QUESTION] what is the schedule of ground transportation from washington airport into downtown
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+SELECT DISTINCT ground_service_1.transport_type FROM ground_service , airport airport_1 , airport_service airport_service_1 , city city_1 , city city_2 WHERE ground_service_1.airport_code = airport_1.airport_code AND airport_1.airport_code = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'WAS' AND ground_service_1.city_code = city_2.city_code AND city_2.city_name = 'DNT'
