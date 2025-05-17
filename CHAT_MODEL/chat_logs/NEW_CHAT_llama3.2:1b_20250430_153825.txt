@@ -1,0 +1,49 @@
+[User]
+You are a strict SQL translator. 
+
+You MUST ONLY output a single SQL query. 
+
+You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+You CANNOT explain anything. 
+
+You MUST copy the style of the EXAMPLES exactly.
+
+Respond ONLY with the SQL query.
+
+---
+
+[EXAMPLE NL QUESTION 1] please list the flights from dallas fort worth to boston on july twenty third
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , airport_service airport_service_3 , city city_3 , days days_1 , date_day date_day_1 WHERE ( ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DALLAS FORT WORTH' ) AND flight_1.to_airport = airport_service_3.airport_code AND airport_service_3.city_code = city_3.city_code AND city_3.city_name = 'BOSTON' ) AND flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 7 AND date_day_1.day_number = 23
+
+[EXAMPLE NL QUESTION 2] i'd like to see flights from baltimore to atlanta that arrive before noon and i'd like to see flights from denver to atlanta that arrive before noon
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE ( ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BALTIMORE' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'ATLANTA' ) OR ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DENVER' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'ATLANTA' ) ) AND flight_1.arrival_time < 1200
+
+[EXAMPLE NL QUESTION 3] show me the flights from boston to pittsburgh
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'PITTSBURGH'
+
+[NL QUESTION] flights to baltimore
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+```sql
+SELECT DISTINCT flight_id 
+FROM flight, airport_service, city, days 
+WHERE (flight.from_airport = airport_service.airport_code 
+AND airport_service.city_code = city.city_code 
+AND city.city_name = 'BALTIMORE' 
+AND flight.flight_days = days.days_code 
+AND days.day_name = date_day.day_name 
+AND date_day.year = 1991 
+AND date_day.month_number = 7 
+AND date_day.day_number = 23 
+AND arrival_time < 1200) OR (flight.from_airport = airport_service.airport_code 
+AND airport_service.city_code = city.city_code 
+AND city.city_name = 'DENVER' 
+AND flight.flight_days = days.days_code 
+AND days.day_name = date_day.day_name 
+AND date_day.year = 1991 
+AND date_day.month_number = 7 
+AND date_day.day_number = 23 
+AND arrival_time < 1200);
+```

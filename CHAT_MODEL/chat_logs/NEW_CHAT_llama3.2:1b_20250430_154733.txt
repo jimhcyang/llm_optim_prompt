@@ -1,0 +1,51 @@
+[User]
+You are a strict SQL translator. 
+
+You MUST ONLY output a single SQL query. 
+
+You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+You CANNOT explain anything. 
+
+You MUST copy the style of the EXAMPLES exactly.
+
+Respond ONLY with the SQL query.
+
+---
+
+[EXAMPLE NL QUESTION 1] what is the cheapest round trip fare from atlanta to pittsburgh
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT fare_1.fare_id FROM fare fare_1 , flight_fare flight_fare_1 , flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE fare_1.round_trip_cost = ( SELECT MIN ( fare_1.round_trip_cost ) FROM fare fare_1 , flight_fare flight_fare_1 , flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE fare_1.fare_id = flight_fare_1.fare_id AND flight_fare_1.flight_id = flight_1.flight_id AND flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'ATLANTA' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'PITTSBURGH' ) AND fare_1.fare_id = flight_fare_1.fare_id AND flight_fare_1.flight_id = flight_1.flight_id AND flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'ATLANTA' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'PITTSBURGH'
+
+[EXAMPLE NL QUESTION 2] which flights are between boston and baltimore washington
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , airport_service airport_service_3 , city city_3 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'BALTIMORE' OR flight_1.to_airport = airport_service_3.airport_code AND airport_service_3.city_code = city_3.city_code AND city_3.city_name = 'WASHINGTON' )
+
+[EXAMPLE NL QUESTION 3] hello i would like to plan a flight on american airlines from boston to denver
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.airline_code = 'AA' AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'DENVER' )
+
+[NL QUESTION] i want a flight from milwaukee to orlando one way leaving after 5pm on wednesday
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+```sql
+SELECT DISTINCT 
+    f1.flight_id
+FROM 
+    flight f1,
+    airport_service as as1,
+    city city1,
+    airport_service as as2,
+    city city2
+WHERE 
+    (f1.airline_code = 'AA' AND as1.city_code = city1.city_code AND as1.city_name = 'MILWAUKEE')
+    OR (f1.from_airport = as2.airport_code AND as2.city_code = city2.city_code AND as2.city_name = 'ORLANDO') 
+    AND f1.to_airport = as1.airport_code AND as1.city_code = city1.city_code AND as1.city_name = 'MILWAUKEE'
+    AND f1.from_airport = as2.airport_code AND as2.city_code = city2.city_code AND as2.city_name = 'ORLANDO' 
+    AND f1.to_airport = as1.airport_code AND as1.city_code = city1.city_code AND as1.city_name = 'MILWAUKEE'
+    AND f1.from_airport = as2.airport_code AND as2.city_code = city2.city_code AND as2.city_name = 'ORLANDO'
+    AND f1.to_airport = as1.airport_code AND as1.city_code = city1.city_code AND as1.city_name = 'MILWAUKEE' 
+    AND f1.from_airport = as2.airport_code AND as2.city_code = city2.city_code AND as2.city_name = 'ORLANDO'
+    AND f1.to_airport = as1.airport_code AND as1.city_code = city1.city_code AND as1.city_name = 'MILWAUKEE' 
+    AND (f1.from_airport = as2.airport_code AND as2.city_code = city2.city_code AND as2.city_name = 'ORLANDO')
+    OR f1.to_airport = as1.airport_code AND as1.city_code = city1.city_code AND as1.city_name = 'MILWAUKEE'
+    AND f1.from_airport = as2.airport_code AND as2.city_code = city2.city_code AND as2.city_name = 'ORLANDO'
+```

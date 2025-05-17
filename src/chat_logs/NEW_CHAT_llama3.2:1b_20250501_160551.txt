@@ -1,0 +1,39 @@
+[User]
+You are a strict SQL translator. 
+
+        You MUST ONLY output a single SQL query. 
+
+        You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+        You CANNOT explain anything. 
+
+        You MUST copy the style of the EXAMPLES exactly.
+
+        Respond ONLY with the SQL query.
+        
+---
+
+        [EXAMPLE NL QUESTION 1] what is the schedule of ground transportation from the airport in philadelphia into downtown
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT ground_service_1.transport_type FROM ground_service ground_service_1 , airport airport_1 , airport_service airport_service_1 , city city_1 , city city_2 WHERE ground_service_1.airport_code = airport_1.airport_code AND airport_1.airport_code = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PHILADELPHIA' AND ground_service_1.city_code = city_2.city_code AND city_2.city_name = 'PHILADELPHIA'
+
+[EXAMPLE NL QUESTION 2] information on afternoon flights from philadelphia to denver
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.departure_time BETWEEN 1200 AND 1800 AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PHILADELPHIA' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'DENVER' )
+
+[EXAMPLE NL QUESTION 3] what are the flights from dallas to baltimore
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'DALLAS' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'BALTIMORE'
+
+[EXAMPLE NL QUESTION 4] show me the flights to love field
+[EXAMPLE SQL PROMPT 4] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport airport_1 WHERE flight_1.to_airport = airport_1.airport_code AND airport_1.airport_code = 'DAL'
+
+[EXAMPLE NL QUESTION 5] what kinds of planes are used by american airlines
+[EXAMPLE SQL PROMPT 5] SELECT DISTINCT aircraft_1.aircraft_code FROM aircraft aircraft_1 , equipment_sequence equipment_sequence_1 , flight flight_1 WHERE aircraft_1.aircraft_code = equipment_sequence_1.aircraft_code AND equipment_sequence_1.aircraft_code_sequence = flight_1.aircraft_code_sequence AND flight_1.airline_code = 'AA'
+
+[NL QUESTION] what is the cost of flight dl 106 from philadelphia to boston
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+```sql
+SELECT DISTINCT flight_1.flight_id 
+FROM flight flight_1, airport_service airport_service_1, city city_1, equipment_sequence equipment_sequence_1, flight flight_2 
+WHERE flight_2.flight_id = 'DL106' AND flight_2.airport_code = 'PHL' AND flight_2.to_airport = 'BOS';
+```

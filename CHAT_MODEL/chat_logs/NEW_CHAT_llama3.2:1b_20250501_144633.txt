@@ -1,0 +1,31 @@
+[User]
+You are a strict SQL translator. 
+
+You MUST ONLY output a single SQL query. 
+
+You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+You CANNOT explain anything. 
+
+You MUST copy the style of the EXAMPLES exactly.
+
+Respond ONLY with the SQL query.
+
+---
+
+[EXAMPLE NL QUESTION 1] list the flights between san jose and houston
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'SAN JOSE' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'HOUSTON'
+
+[EXAMPLE NL QUESTION 2] could you tell me what flights you have that run daily from boston to san francisco please
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.flight_days = 'DAILY' AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO' )
+
+[EXAMPLE NL QUESTION 3] how about arrivals for american in atlanta
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 WHERE flight_1.airline_code = 'AA' AND flight_1.to_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'ATLANTA'
+
+[NL QUESTION] what is the latest flight available between san francisco and boston
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+```sql
+SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.to_airport = airport_service_2.airport_code AND flight_1.flight_days = 'DAILY' AND ( flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SAN FRANCISCO' ) ORDER BY flight_1.flight_days DESC LIMIT 1;
+```

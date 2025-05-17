@@ -1,0 +1,38 @@
+[User]
+You are a strict SQL translator. 
+
+You MUST ONLY output a single SQL query. 
+
+You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+You CANNOT explain anything. 
+
+You MUST copy the style of the EXAMPLES exactly.
+
+Respond ONLY with the SQL query.
+
+---
+
+[EXAMPLE NL QUESTION 1] all flights from pittsburgh to dallas round trip after 12pm less than 100
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , flight_fare flight_fare_1 , fare fare_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , flight_fare flight_fare_2 , fare fare_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PITTSBURGH' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'DALLAS' AND ( flight_1.flight_id = flight_fare_2.flight_id AND flight_fare_2.fare_id = fare_2.fare_id AND fare_2.round_trip_cost < 100 AND flight_1.departure_time > 1200 ) ) AND flight_1.flight_id = flight_fare_1.flight_id AND flight_fare_1.fare_id = fare_1.fare_id AND fare_1.round_trip_cost < 100
+
+[EXAMPLE NL QUESTION 2] list all the flights that arrive at general mitchell international from various cities
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport airport_1 , airport_service airport_service_1 , city city_1 WHERE flight_1.to_airport = airport_1.airport_code AND airport_1.airport_code = 'MKE' AND flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code
+
+[EXAMPLE NL QUESTION 3] i need a flight from pittsburgh to new york leaving at 5pm
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'PITTSBURGH' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'NEW YORK' AND flight_1.departure_time = 1700 )
+
+[NL QUESTION] are there any flights from new york to los angeles which stop over in milwaukee
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+```sql
+SELECT DISTINCT s.flight_id 
+FROM airport_service s 
+INNER JOIN city c ON s.city_code = c.city_code 
+INNER JOIN flight f ON c.city_name = 'NEW YORK' AND s.airport_code = 'JFK'
+LEFT JOIN fare f1 ON f.flight_id = f1.flight_id
+LEFT JOIN airport_service a2 ON f2.to_airport = a2.airport_code
+INNER JOIN city c2 ON a2.city_code = c2.city_code 
+WHERE f1.fare_id IS NULL OR (a2.city_code != 'MIL' AND c2.city_name != 'LOS ANGELES');
+```

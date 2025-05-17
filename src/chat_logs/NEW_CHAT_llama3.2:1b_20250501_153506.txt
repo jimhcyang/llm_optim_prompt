@@ -1,0 +1,41 @@
+[User]
+You are a strict SQL translator. 
+
+You MUST ONLY output a single SQL query. 
+
+You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+You CANNOT explain anything. 
+
+You MUST copy the style of the EXAMPLES exactly.
+
+Respond ONLY with the SQL query.
+
+---
+
+[EXAMPLE NL QUESTION 1] i would like a flight between boston and atlanta on any day at one in the afternoon
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'ATLANTA' AND flight_1.departure_time = 1300 )
+
+[EXAMPLE NL QUESTION 2] please list any flight available leaving oakland california tuesday arriving philadelphia wednesday
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , days days_1 , date_day date_day_1 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'OAKLAND' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'PHILADELPHIA' AND ( flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 3 AND date_day_1.day_number = 22 AND ( flight_1.arrival_time < flight_1.departure_time ) ) )
+
+[EXAMPLE NL QUESTION 3] all flights from boston to washington dc on november tenth
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , days days_1 , date_day date_day_1 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'BOSTON' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'WASHINGTON' AND flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 11 AND date_day_1.day_number = 10 )
+
+[NL QUESTION] show me round trip fares from pittsburgh to philadelphia
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+```sql
+SELECT 
+    f.flight_id,
+    s.fare,
+    t.fare + t.fare AS total_fare
+FROM flight f
+JOIN airport_service a1 ON f.from_airport = a1.airport_code
+JOIN city c1 ON a1.city_code = c1.city_code
+JOIN airport_service a2 ON f.to_airport = a2.airport_code
+JOIN city c2 ON a2.city_code = c2.city_code
+JOIN days d1 ON f.flight_days = d1.days_code
+JOIN date_day d2 ON f.flight_days = d2.day_name AND d2.year = 1991 AND d2.month_number = 11 AND d2.day_number = 10;
+```

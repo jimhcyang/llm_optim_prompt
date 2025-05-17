@@ -1,0 +1,35 @@
+[User]
+You are a strict SQL translator. 
+
+You MUST ONLY output a single SQL query. 
+
+You are NOT allowed to repeat the instructions, the examples, or any natural language text. 
+
+You CANNOT explain anything. 
+
+You MUST copy the style of the EXAMPLES exactly.
+
+Respond ONLY with the SQL query.
+
+---
+
+[EXAMPLE NL QUESTION 1] what is dl
+[EXAMPLE SQL PROMPT 1] SELECT DISTINCT airline_1.airline_code FROM airline airline_1 WHERE airline_1.airline_code = 'DL'
+
+[EXAMPLE NL QUESTION 2] what is restriction ap57
+[EXAMPLE SQL PROMPT 2] SELECT DISTINCT restriction_1.advance_purchase , restriction_1.stopovers , restriction_1.saturday_stay_required , restriction_1.minimum_stay , restriction_1.maximum_stay , restriction_1.application , restriction_1.no_discounts , restriction_1.restriction_code FROM restriction restriction_1 WHERE restriction_1.restriction_code = 'AP/57'
+
+[EXAMPLE NL QUESTION 3] i would like to book a flight from chicago to seattle on june first
+[EXAMPLE SQL PROMPT 3] SELECT DISTINCT flight_1.flight_id FROM flight flight_1 , airport_service airport_service_1 , city city_1 , airport_service airport_service_2 , city city_2 , days days_1 , date_day date_day_1 WHERE flight_1.from_airport = airport_service_1.airport_code AND airport_service_1.city_code = city_1.city_code AND city_1.city_name = 'CHICAGO' AND ( flight_1.to_airport = airport_service_2.airport_code AND airport_service_2.city_code = city_2.city_code AND city_2.city_name = 'SEATTLE' AND flight_1.flight_days = days_1.days_code AND days_1.day_name = date_day_1.day_name AND date_day_1.year = 1991 AND date_day_1.month_number = 6 AND date_day_1.day_number = 1 )
+
+[NL QUESTION] what flights leave chicago and arrive in detroit around 6pm next tuesday
+[SQL PROMPT]
+
+[Model (llama3.2:1b)]
+```sql
+SELECT DISTINCT flight_id 
+FROM flight 
+WHERE from_airport = 'CHICAGO' 
+AND to_airport = 'DETROIT' 
+AND time >= '18:00' AND time < '21:00';
+```
